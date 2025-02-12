@@ -39,3 +39,20 @@ Balance for Krystina: 3516 KC
 -->
 
 <!--Extra Fun -->
+<h2>Balances (Tabular Format)</h2>
+<table border=.5>
+  <tr>
+    <th>Name</th>
+    <th>Balance</th>
+  </tr>
+  <% users = User.all %>
+  <% for user in users %>
+    <% total_received = Transaction.where({ "to_user_id" => user["id"] }).sum("amount") %>
+    <% total_sent = Transaction.where({ "from_user_id" => user["id"] }).sum("amount") %>
+    <% balance = total_received - total_sent %>
+    <tr>
+      <td><%= user["name"] %></td>
+      <td><%= balance %> KC</td>
+    </tr>
+  <% end %>
+</table>
